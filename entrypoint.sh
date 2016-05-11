@@ -1,9 +1,19 @@
 #!/bin/bash
 
 
-if [[ "$(ls -A /certs)" ]]; then
-    echo "\n=> Found certs using c_rehash on directory /certs\n"
-    c_rehash /certs
+if [[ -d /certs ]] && [[ "$(ls -A /certs)" ]]; then
+    echo ""
+    echo "=> Copying certs..."
+    cp -R /certs /.certs
+
+    echo "=> Rehashing certs..."
+    c_rehash /.certs
+
+    export REQUESTS_CA_BUNDLE=/.certs/
+fi
+
+if [[ -d /site-packages ]] && [[ "$(ls -A /site-packages)" ]]; then
+    export PIP_TARGET=/site-packages
 fi
 
 if ! [[ "${DEVPI_URL}" == "" ]]; then

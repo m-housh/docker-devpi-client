@@ -10,7 +10,7 @@ $ docker pull mhoush/docker-devpi-client:latest
 ## Usage
 This image allows you to run ***devpi-client*** commands inside a docker container.  All commands 
 get sent to `devpi` unless you use `sh` or `bash` will open a shell session inside the
-container.  All containers should also be started with `-it` flags for login purposes.
+container.
 
 ---
 

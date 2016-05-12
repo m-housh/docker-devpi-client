@@ -13,4 +13,6 @@ VOLUME /root/.pip
 
 WORKDIR /mnt
 
-CMD ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.sh"]
+
+CMD ["-h"]

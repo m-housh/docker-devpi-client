@@ -1,5 +1,12 @@
 #!/bin/bash
 
+array=("zsh" "sh" "bash")
+
+wantsShell(){
+    local e
+    for e in "${array[@]}"; do [[ "$e" == "$1" ]] && return 0; done
+    return 1
+}
 
 if [[ -d /certs ]] && [[ "$(ls -A /certs)" ]]; then
     echo ""
@@ -25,5 +32,21 @@ if ! [[ "${DEVPI_USER}" == "" ]]; then
     devpi login "${DEVPI_USER}"
 fi
 
-bash # used to not exit the contianer.
+if ! [[ "${DEVPI_USE}" == "" ]]; then
+    devpi use "${DEVPI_USE}"
+fi
+
+wantsShell "$1"
+
+if [[ "$?" == "0" ]]; then
+    echo ""
+    echo "=> starting shell..."
+    $1 # start the shell of choice and don't exit container
+else
+    echo ""
+    echo "=> running devpi commands: $@"
+    # runs devpi commands and exits the container
+    devpi "$@"
+fi
+
 

@@ -14,6 +14,7 @@ fi
 
 if [[ -d /site-packages ]] && [[ "$(ls -A /site-packages)" ]]; then
     export PIP_TARGET=/site-packages
+    export PYTHONPATH="${PYTHONPATH}:/site-packages"
 fi
 
 if ! [[ "${DEVPI_URL}" == "" ]]; then

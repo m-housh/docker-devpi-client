@@ -10,8 +10,8 @@ $ docker pull mhoush/docker-devpi-client:latest
 ## Usage
 This image allows you to run ***devpi-client*** commands inside a docker container.  All commands 
 get sent to `devpi` unless you use `sh` or `bash` will open a shell session inside the
-container.  There is also a utility script for easier start-up/access to using the devpi-client
-from your host machine.  See the 
+container.  There is also a utility script for easier start-up/access to using the 
+devpi-client from your host machine.  See the 
 [github repo](https://github.com/m-housh/docker-devpi-client/tree/master/bin) for installation.
 
 ---

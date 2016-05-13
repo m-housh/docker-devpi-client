@@ -1,6 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env zsh
 
-array=("zsh" "sh" "bash")
+array=("zsh" "sh")
 
 wantsShell(){
     local e

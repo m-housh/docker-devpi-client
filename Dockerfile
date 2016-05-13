@@ -1,6 +1,12 @@
-FROM python:3.5
+FROM python:alpine
 
-RUN pip install --upgrade pip \
+
+RUN apk add --update --no-cache --purge \
+    zsh \
+    opensslpip \
+    git && \
+    pip install --no-cache-dir --upgrade --ignore-installed \
+    pip \
     devpi-client \
     setuptools \
     sphinx 

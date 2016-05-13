@@ -3,7 +3,7 @@ FROM python:alpine
 
 RUN apk add --update --no-cache --purge \
     zsh \
-    opensslpip \
+    openssl \
     git && \
     pip install --no-cache-dir --upgrade --ignore-installed \
     pip \

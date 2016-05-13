@@ -4,8 +4,8 @@
 # A script for all devpi commands to be sent to a docker container.
 # This will mount your current directory into the container
 
-version="0.1.0"
 site_packages=""
+machine_name="default"  # change to your docker-machine name OS X
 
 # variables to pass into the docker-devpi-client container.
 # adjust accordingly
@@ -13,19 +13,21 @@ DEVPI_USER="devpi"
 DEVPI_URL="http://localhost:8080"
 DEVPI_USE="dev"
 
-# check that docker-machine is running in OS X
-# remove if not needed
-# change name if your docker machine name is not default
-# ex. $(docker-machine status docker)
-if ! [[ "$(docker-machine status default)" == "Running" ]]; then
-    docker-machine start default
-fi
 
-# connect to the docker daemon on OS X
-# remove if not needed
-# change name if your docker-machine name is not default
-# ex. $(docker-machine env docker)
-eval $(docker-machine env default)
+if [[ "$(uname)" == "Darwin" ]]; then
+    # check that docker-machine is running in OS X
+    # change name if your docker machine name is not default
+    # ex. $(docker-machine status docker)
+
+    if ! [[ "$(docker-machine status $machine_name)" == "Running" ]]; then
+        docker-machine start "$machine_name"
+    fi
+
+    # connect to the docker daemon on OS X
+    # change name if your docker-machine name is not default
+    # ex. $(docker-machine env docker)
+    eval $(docker-machine env "$machine_name")
+fi
 
 # check for virtual env in the environment.
 # and mount the site-packages directory if so
@@ -52,8 +54,8 @@ if [[ "$site_packages" == "" ]]; then
     # start a container without site-packages mounted
     docker run -h DEVPI-DOCKER -it --rm \
         -v "${PWD}":/mnt \
-        -v "${HOME}/.certs":/certs \ # remove if not needed
-        -v "${HOME}/Dockerfiles/devpi-client/pip":/root/.pip \ # remove if not needed
+        -v "${HOME}/.certs":/certs \
+        -v "${HOME}/Dockerfiles/devpi-client/pip":/root/.pip \
         -e DEVPI_USER="${DEVPI_USER}" \
         -e DEVPI_URL="${DEVPI_URL}" \
         -e DEVPI_USE="${DEVPI_USE}" \

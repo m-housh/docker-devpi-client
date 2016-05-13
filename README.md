@@ -1,22 +1,33 @@
 ## Docker-Devpi-Client
 -------------------
 
-## Pull
+## Usage 
 
-```bash
-$ docker pull mhoush/docker-devpi-client:latest
-```
-
-## Usage
 This image allows you to run ***devpi-client*** commands inside a docker container.  All commands 
 get sent to `devpi` unless you use `sh` or `bash` will open a shell session inside the
 container.  There is also a utility script for easier start-up/access to using the 
 devpi-client from your host machine.  See the 
 [github repo](https://github.com/m-housh/docker-devpi-client/tree/master/bin) for installation.
 
----
+
+
+```bash
+$ docker pull mhoush/docker-devpi-client:latest
+$ docker run -it --rm \
+    -v "${PWD}":/mnt \
+    -v "${PWD}/venv/lib/python3.5/site-packages":/site-packages \
+    -v "${HOME}/.certs":/certs \
+    -e DEVPI_USER=devpi \
+    -e DEVPI_URL=http://localhost:8080/packages \
+    -e DEVPI_USE=dev \
+    mhoush/docker-devpi-client upload --with-docs
+
+```
+
 
 #### Volumes:  
+---
+
 1. **/mnt**:   
     Where to mount your source code, for upload.
 2. **/site-packages:**
@@ -34,6 +45,8 @@ devpi-client from your host machine.  See the
     for requests to validate certificates.
 
 #### Environment Variables:
+---
+
  
  1. **DEVPI_URL:**  
     Your devpi server url. If not empty then will run `devpi use "${DEVPI_URL}"` before your
@@ -46,6 +59,8 @@ devpi-client from your host machine.  See the
     your commands.
 
 ### Examples:
+---
+
 
 *Upload a project to your devpi server and exit the container.*
 ```bash
